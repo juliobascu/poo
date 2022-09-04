@@ -1,5 +1,6 @@
 from importlib.resources import open_text
 from imagenesascii import *
+import os
 class Pokemon:
     def __init__(self,nombre,color,tipo,fuerza,defensa,vida,img):
         self.nombre=nombre
@@ -20,9 +21,17 @@ class Pokemon:
         {self.img}
         """)
 
-#funcion para salvar y cargar los objetos en un txt
-def cargar():
-    archivo=open("load.txt","r")
-    lista_pokemon=archivo.readlines()
-    print(lista_pokemon)
-    
+#funcion de menu
+def menu():
+    limpiar()
+    print(f"""
+    ===============MENU===================
+    1.-Lista Pokemon    2.-Buscar Pokemon
+    3.-Combate          4.-Salir
+    ======================================
+
+    """)
+
+#Funcion para limpiar
+def limpiar():
+    os.system("cls")
