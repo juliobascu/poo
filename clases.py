@@ -1,6 +1,7 @@
-from importlib.resources import open_text
 from imagenesascii import *
 import os
+from pokemonBD import *
+
 class Pokemon:
     def __init__(self,nombre,color,tipo,fuerza,defensa,vida,img):
         self.nombre=nombre
@@ -21,6 +22,7 @@ class Pokemon:
         {self.img}
         """)
 
+
 #funcion de menu
 def menu():
     limpiar()
@@ -35,3 +37,8 @@ def menu():
 #Funcion para limpiar
 def limpiar():
     os.system("cls")
+
+class Contador_lista:
+    def __init__(self,index):
+        self.index=index
+        

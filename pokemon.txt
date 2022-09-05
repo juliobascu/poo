@@ -1,0 +1,6 @@
+Nombre:charmander 
+Color: rojo
+Tipo: fuego
+Fuerza: 25
+Defensa: 35
+Vida: 70

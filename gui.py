@@ -1,14 +1,19 @@
+from pokemonBD import *
+from clases import *
+from imagenesascii import *
+
 from cProfile import label
 from ctypes.wintypes import RGB
+from operator import index
 from tkinter import *
 import tkinter
-from turtle import position
+from turtle import position, width
 import cv2
-from imagenesascii import *
-from clases import *
 import time
 from pygame import mixer
-from pyautogui import displayMousePosition
+from PIL import ImageTk,Image
+
+
 
 mixer.init()
 mixer.music.load("resources/pokesong.mp3")
@@ -16,6 +21,30 @@ mixer.music.set_volume(0.7)
 mixer.music.play(-1)
 
 
+#-----------------------------------------------------------------------
+def next():
+    
+    canvas.delete("status")
+    archivo=open("pokemon.txt","w")
+    archivo.write("Nombre:%s "%listapokedex [contlista.index].nombre+"\n")
+    archivo.write("Color: %s"%listapokedex  [contlista.index].color+"\n")
+    archivo.write("Tipo: %s"%listapokedex   [contlista.index].tipo+"\n")
+    archivo.write("Fuerza: %s"%listapokedex [contlista.index].fuerza+"\n")
+    archivo.write("Defensa: %s"%listapokedex[contlista.index].defensa+"\n")
+    archivo.write("Vida: %s"%listapokedex   [contlista.index].vida+"\n")
+    archivo.close()
+
+    with open("pokemon.txt") as pk:
+            leer=pk.read().capitalize()
+            
+    
+    canvas.create_text(460,200,text=leer,fill="black",font=("times",20,"bold"),tags="status",anchor=NW)
+
+def labelnombre():
+    canvas.delete("label")
+    mensaje=contlista.index    
+    canvas.create_text(180,500,text=mensaje,fill="black",font=("times",15,"bold"),tags="label")
+#---------------------------------------------------------VIDEO INTRO
 # intro=cv2.VideoCapture("resources/intropok.mp4")
 # fps=intro.get(cv2.CAP_PROP_FPS)
 # delay=1/fps
@@ -37,12 +66,7 @@ mixer.music.play(-1)
 # sonidoentrar=mixer.Sound("resources/enterpokemon.mp3")
 # sonidoentrar.play()
 # mixer.music.set_volume(0.4)
-#---------------------------------------------------------
-
-def btn_clicked():
-    print("Button Clicked")
-
-
+#---------------------------------------------------------CREACION DE VENTANA TKINTER
 window = Tk()
 window.title("Pokedex  by.Julio Bascuñan")
 window.geometry("800x600")
@@ -56,17 +80,14 @@ canvas = Canvas(
     highlightthickness = 0,
     relief = "ridge")
 canvas.place(x = 0, y = 0)
+canvas.pack()
 
 background_img = PhotoImage(file = f"resources/background1.png")
 background = canvas.create_image(
     400.0, 300.0,
     image=background_img)
 #-----------------------------------------------------------------
-# canvas.create_text(
-#     335, 40.5,
-#     text = "Hecho por Julio Bascuñan",
-#     fill = "#ffffff",
-#     font = ("Inter-ExtraBold", int(12.0)))
+
 #--------------------------------------------------------------------
 entry1_img = PhotoImage(file = f"resources/img_textBox1.png")
 entry1_bg = canvas.create_image(
@@ -84,19 +105,39 @@ entry1.place(
     width = 86.0,
     height = 28)
 #---------------------------------------------------------------Funciones Botones
-def b0_click():
-    sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
-    sonidoentrar.play()
-def b1_click():
-    sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
-    sonidoentrar.play()
+contlista=Contador_lista(0)
+def b0_click():#boton cambiar pokemon al siguiente de la lista
+    labelnombre()
+    if contlista.index>=len(listapokedex):
+        pass
+    else:
+        next()
+        contlista.index=contlista.index+1
+        sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
+        sonidoentrar.play()
+    
+def b1_click():#boton cambiar pokemon al anterior de la lista
+    labelnombre()
+    if contlista.index<=0:
+        contlista.index=0
+        
+    else:
+        next()
+        contlista.index=contlista.index-1
+        sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
+        sonidoentrar.play()
+
 def b2_click():
     sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
     sonidoentrar.play()
-def b3_click():
+
+def b3_click():#volumen arriba Boton
+    mixer.music.set_volume(mixer.music.get_volume()+0.1)
     sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
     sonidoentrar.play()
-def b4_click():
+
+def b4_click():#volumen abajo boton
+    mixer.music.set_volume(mixer.music.get_volume()-0.1)
     sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
     sonidoentrar.play()
 #-------------------------------------------------------------Boton Derecha
@@ -174,12 +215,13 @@ b4.place(
     width = 40,
     height = 10)
 #-----------------------------------------------------------------Texto que muestra el nombre del personaje
-mensaje="Pikachu"
 msjvol="- VOLUMEN +"
-canvas.create_text(180,500,text=mensaje,fill="black",font=("times",15,"bold"))
 canvas.create_text(190,419,text=msjvol,fill="#545454",font=("times",10,"bold"))
-#------------------------------------------------------------------------------------
-
-#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------Canvas Muestra Datos Pokemon
+imagenpkm = Image.open("resources/imgs/pikachu.png")
+resize=imagenpkm.resize((150,150),Image.Resampling.LANCZOS)
+nuevimg=ImageTk.PhotoImage(resize)
+pklabel=Label(image=nuevimg).place(x=180,y=190)
+#------------------------------------------------------------------------------------Final del programa
 window.resizable(False, False)
 window.mainloop()

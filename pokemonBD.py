@@ -1,8 +1,7 @@
-from clases import *
-from imagenesascii import *
-import time
+from clases import Pokemon
 
-#Creaacion de Pokemones
+
+#---------------------------------------------------------------------------Creaacion de Pokemones
 pokemon1=Pokemon("pikachu","amarillo","electrico",25,35,70,0)
 pokemon2=Pokemon("bulbasaur","verde","veneno",25,35,70,1)
 pokemon3=Pokemon("charmander","rojo","fuego",25,35,70,2)
@@ -23,22 +22,5 @@ pokemon9=Pokemon("ekans","negro","veneno",25,35,70,8)
 # pokemon18=Pokemon("diglett","cafe","tierra",25,35,70,17)
 # pokemon19=Pokemon("meowth","cafe","normal",25,35,70,18)
 # pokemon20=Pokemon("psyduck","amarillo","agua",25,35,70,19)
-
-while True:
-    for i in introimg:
-        limpiar()
-        print(i)
-        time.sleep(0.05)
-    
-    input("me dio flojera poner el intro completo asi que presiona ENTER para continuar....")
-    menu()
-    op=input("Ingrese Opcion:\n")
-    if op == "1":
-        pass
-    elif op == "2":
-        pass
-    elif op == "3":
-        pass
-    elif op == "4":
-        break
-
+#---------------------------------------------------------------------Crear lista con los objetos pokemones
+listapokedex=[pokemon1,pokemon2,pokemon3,pokemon4,pokemon5,pokemon6,pokemon7,pokemon8,pokemon9]
