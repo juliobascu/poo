@@ -44,6 +44,14 @@ def labelnombre():
     canvas.delete("label")
     mensaje=contlista.index    
     canvas.create_text(180,500,text=mensaje,fill="black",font=("times",15,"bold"),tags="label")
+
+def mostrarimg():
+    imagenpkm = Image.open("resources/imgs/pikachu.png")
+    resize=imagenpkm.resize((150,150),Image.Resampling.LANCZOS)
+    nuevimg=ImageTk.PhotoImage(resize)
+    pklabel=Label(window,image=nuevimg)
+    pklabel.place(x=180,y=190)
+    pklabel.pack()
 #---------------------------------------------------------VIDEO INTRO
 # intro=cv2.VideoCapture("resources/intropok.mp4")
 # fps=intro.get(cv2.CAP_PROP_FPS)
@@ -107,25 +115,30 @@ entry1.place(
 #---------------------------------------------------------------Funciones Botones
 contlista=Contador_lista(0)
 def b0_click():#boton cambiar pokemon al siguiente de la lista
-    labelnombre()
-    if contlista.index>=len(listapokedex):
-        pass
-    else:
-        next()
+    
+    if contlista.index<len(listapokedex)-1:
         contlista.index=contlista.index+1
+        labelnombre()
+        next()
+        mostrarimg()
         sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
         sonidoentrar.play()
-    
-def b1_click():#boton cambiar pokemon al anterior de la lista
-    labelnombre()
-    if contlista.index<=0:
-        contlista.index=0
         
     else:
-        next()
+        pass
+    
+def b1_click():#boton cambiar pokemon al anterior de la lista
+    if contlista.index>0:
+        labelnombre()
         contlista.index=contlista.index-1
+        next()       
         sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
         sonidoentrar.play()
+
+        
+    else:
+        pass
+    
 
 def b2_click():
     sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
@@ -221,7 +234,10 @@ canvas.create_text(190,419,text=msjvol,fill="#545454",font=("times",10,"bold"))
 imagenpkm = Image.open("resources/imgs/pikachu.png")
 resize=imagenpkm.resize((150,150),Image.Resampling.LANCZOS)
 nuevimg=ImageTk.PhotoImage(resize)
-pklabel=Label(image=nuevimg).place(x=180,y=190)
+pklabel=Label(window,image=nuevimg)
+pklabel.place(x=180,y=190)
+
+
 #------------------------------------------------------------------------------------Final del programa
 window.resizable(False, False)
 window.mainloop()

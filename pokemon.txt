@@ -1,6 +1,6 @@
-Nombre:charmander 
-Color: rojo
-Tipo: fuego
+Nombre:pikachu 
+Color: amarillo
+Tipo: electrico
 Fuerza: 25
 Defensa: 35
 Vida: 70
