@@ -12,8 +12,8 @@ import cv2
 import time
 from pygame import mixer
 from PIL import ImageTk,Image
-
-
+ini=0
+contlista=Contador_lista(0)
 
 mixer.init()
 mixer.music.load("resources/pokesong.mp3")
@@ -36,22 +36,16 @@ def next():
 
     with open("pokemon.txt") as pk:
             leer=pk.read().capitalize()
-            
     
     canvas.create_text(460,200,text=leer,fill="black",font=("times",20,"bold"),tags="status",anchor=NW)
 
-def labelnombre():
+def labelnombre():#--------------------------numero debajo de la imagen
     canvas.delete("label")
     mensaje=contlista.index    
     canvas.create_text(180,500,text=mensaje,fill="black",font=("times",15,"bold"),tags="label")
 
-def mostrarimg():
-    imagenpkm = Image.open("resources/imgs/pikachu.png")
-    resize=imagenpkm.resize((150,150),Image.Resampling.LANCZOS)
-    nuevimg=ImageTk.PhotoImage(resize)
-    pklabel=Label(window,image=nuevimg)
-    pklabel.place(x=180,y=190)
-    pklabel.pack()
+
+
 #---------------------------------------------------------VIDEO INTRO
 # intro=cv2.VideoCapture("resources/intropok.mp4")
 # fps=intro.get(cv2.CAP_PROP_FPS)
@@ -95,6 +89,22 @@ background = canvas.create_image(
     400.0, 300.0,
     image=background_img)
 #-----------------------------------------------------------------
+def updateimg():#------------------------------------------------------updatear la imagen
+    imagenpkm = Image.open(pokeimg[contlista.index])
+    resize=imagenpkm.resize((150,150),Image.Resampling.LANCZOS)
+    nuevimg=ImageTk.PhotoImage(resize)
+    image_container=canvas.create_image(180,190, anchor="nw",image=nuevimg)
+    canvas.itemconfig(image_container,image="zxc")
+    
+
+# if ini == 0:
+#     imagenpkm = Image.open(pokeimg[contlista.index])
+#     resize=imagenpkm.resize((150,150),Image.Resampling.LANCZOS)
+#     nuevimg=ImageTk.PhotoImage(resize)
+#     image_container =canvas.create_image(180,190, anchor="nw",image=nuevimg)
+#     ini=1
+#     labelnombre()
+#     next()
 
 #--------------------------------------------------------------------
 entry1_img = PhotoImage(file = f"resources/img_textBox1.png")
@@ -113,27 +123,31 @@ entry1.place(
     width = 86.0,
     height = 28)
 #---------------------------------------------------------------Funciones Botones
-contlista=Contador_lista(0)
+
 def b0_click():#boton cambiar pokemon al siguiente de la lista
     
-    if contlista.index<len(listapokedex)-1:
+    if contlista.index<len(listapokedex)-1:        
+        sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
+        sonidoentrar.play()
         contlista.index=contlista.index+1
         labelnombre()
         next()
-        mostrarimg()
-        sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
-        sonidoentrar.play()
+        updateimg()
+        
         
     else:
         pass
     
 def b1_click():#boton cambiar pokemon al anterior de la lista
     if contlista.index>0:
-        labelnombre()
-        contlista.index=contlista.index-1
-        next()       
         sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
         sonidoentrar.play()
+        contlista.index=contlista.index-1
+        labelnombre()
+        next()
+        updateimg()
+        
+        
 
         
     else:
@@ -231,11 +245,7 @@ b4.place(
 msjvol="- VOLUMEN +"
 canvas.create_text(190,419,text=msjvol,fill="#545454",font=("times",10,"bold"))
 #------------------------------------------------------------------------------------Canvas Muestra Datos Pokemon
-imagenpkm = Image.open("resources/imgs/pikachu.png")
-resize=imagenpkm.resize((150,150),Image.Resampling.LANCZOS)
-nuevimg=ImageTk.PhotoImage(resize)
-pklabel=Label(window,image=nuevimg)
-pklabel.place(x=180,y=190)
+
 
 
 #------------------------------------------------------------------------------------Final del programa
