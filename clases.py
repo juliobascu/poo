@@ -3,7 +3,7 @@ import os
 from pokemonBD import *
 
 class Pokemon:
-    def __init__(self,nombre,color,tipo,fuerza,defensa,vida,img):
+    def __init__(self,nombre,color,tipo,fuerza,defensa,vida,img,index):
         self.nombre=nombre
         self.color=color
         self.tipo=tipo
@@ -11,6 +11,7 @@ class Pokemon:
         self.defensa=defensa
         self.vida=vida
         self.img=pokeimg[img]
+        self.index=index
     
     def pokedex(self):
         print(f"""

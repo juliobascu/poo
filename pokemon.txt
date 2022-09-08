@@ -1,6 +1,6 @@
-Nombre:pikachu 
-Color: amarillo
-Tipo: electrico
-Fuerza: 25
-Defensa: 35
-Vida: 70
+Nombre:ekans 
+Color: negro
+Tipo: veneno
+Fuerza: 17
+Defensa: 45
+Vida: 50

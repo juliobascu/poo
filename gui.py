@@ -44,30 +44,34 @@ def labelnombre():#--------------------------numero debajo de la imagen
     mensaje=contlista.index    
     canvas.create_text(180,500,text=mensaje,fill="black",font=("times",15,"bold"),tags="label")
 
-
+def error():
+    with open("pokemon0.txt") as pk:
+            leer=pk.read().capitalize()
+    
+    canvas.create_text(460,200,text=leer,fill="black",font=("times",20,"bold"),tags="status",anchor=NW)
 
 #---------------------------------------------------------VIDEO INTRO
-# intro=cv2.VideoCapture("resources/intropok.mp4")
-# fps=intro.get(cv2.CAP_PROP_FPS)
-# delay=1/fps
+intro=cv2.VideoCapture("resources/intropok.mp4")
+fps=intro.get(cv2.CAP_PROP_FPS)
+delay=1/fps
 
-# while (intro.isOpened()):
-#     ret, im=intro.read()
+while (intro.isOpened()):
+    ret, im=intro.read()
 
-#     if ret ==False:
-#         break
+    if ret ==False:
+        break
 
-#     cv2.imshow("imagen",im)
+    cv2.imshow("imagen",im)
 
-#     if cv2.waitKey(1) & 0xFF == 27:
-#         break
-#     time.sleep(delay)
+    if cv2.waitKey(1) & 0xFF == 27:
+        break
+    time.sleep(delay)
 
-# intro.release()
-# cv2.destroyAllWindows()
-# sonidoentrar=mixer.Sound("resources/enterpokemon.mp3")
-# sonidoentrar.play()
-# mixer.music.set_volume(0.4)
+intro.release()
+cv2.destroyAllWindows()
+sonidoentrar=mixer.Sound("resources/enterpokemon.mp3")
+sonidoentrar.play()
+mixer.music.set_volume(0.4)
 #---------------------------------------------------------CREACION DE VENTANA TKINTER
 window = Tk()
 window.title("Pokedex  by.Julio Bascuñan")
@@ -154,9 +158,21 @@ def b1_click():#boton cambiar pokemon al anterior de la lista
         pass
     
 
-def b2_click():
+def b2_click():#--------------Boton Buscar Pokemon
     sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
     sonidoentrar.play()
+    buscar=entry1.get()
+    # print(buscar)
+    for i in listapokedex:
+        if buscar == i.nombre:
+            contlista.index=i.index
+            # print(contlista)
+            labelnombre()
+            next()
+            updateimg()    
+        else:
+            # next()
+            pass
 
 def b3_click():#volumen arriba Boton
     mixer.music.set_volume(mixer.music.get_volume()+0.1)
@@ -167,7 +183,7 @@ def b4_click():#volumen abajo boton
     mixer.music.set_volume(mixer.music.get_volume()-0.1)
     sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
     sonidoentrar.play()
-#-------------------------------------------------------------Boton Derecha
+#-----------------------------------------------------------Imagenes de Botonoes Boton Derecha
 img0 = PhotoImage(file = f"resources/RightButton.png")
 b0 = Button(
     image = img0,
