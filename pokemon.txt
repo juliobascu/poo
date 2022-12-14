@@ -1,6 +1,8 @@
-Nombre:ekans 
-Color: negro
-Tipo: veneno
-Fuerza: 17
-Defensa: 45
-Vida: 50
+Nombre:gengar
+Tipo:ghost
+Peso:40.5
+Ataque:65
+Defensa:60
+Vida:60
+Altura:1.5
+ID:94

@@ -1,7 +1,9 @@
 from pokemonBD import *
 from clases import *
 from imagenesascii import *
-
+import requests 
+import json 
+import os
 from cProfile import label
 from ctypes.wintypes import RGB
 from operator import index
@@ -22,22 +24,41 @@ mixer.music.play(-1)
 
 
 #-----------------------------------------------------------------------
-def next():
+def next(pokemon):
+    
+    url = f'https://pokeapi.co/api/v2/pokemon/{pokemon}'
+    # realizamos la petición a la API
+    r = requests.get(url)
+    # convertimos los datos recibidos a formato json
+    j = r.json()
+    # imprimimos los datos
+    nombre=j["name"]
+    tipo=j["types"][0]["type"]["name"]
+    peso=j["weight"]/10
+    altura=j["height"]/10
+    pokeid=j["id"]
+    hp=j["stats"][0]["base_stat"]
+    atk=j["stats"][1]["base_stat"]
+    defensa=j["stats"][2]["base_stat"]
+    Variables.sprite=j["sprites"]["front_default"]
     
     canvas.delete("status")
     archivo=open("pokemon.txt","w")
-    archivo.write("Nombre:%s "%listapokedex [contlista.index].nombre+"\n")
-    archivo.write("Color: %s"%listapokedex  [contlista.index].color+"\n")
-    archivo.write("Tipo: %s"%listapokedex   [contlista.index].tipo+"\n")
-    archivo.write("Fuerza: %s"%listapokedex [contlista.index].fuerza+"\n")
-    archivo.write("Defensa: %s"%listapokedex[contlista.index].defensa+"\n")
-    archivo.write("Vida: %s"%listapokedex   [contlista.index].vida+"\n")
+    archivo.write(f"Nombre:{nombre}\n")
+    archivo.write(f"Tipo:{tipo}\n")
+    archivo.write(f"Peso:{peso}\n")
+    archivo.write(f"Ataque:{atk}\n")
+    archivo.write(f"Defensa:{defensa}\n")
+    archivo.write(f"Vida:{hp}\n")
+    archivo.write(f"Altura:{altura}\n")
+    archivo.write(f"ID:{pokeid}\n")
     archivo.close()
 
     with open("pokemon.txt") as pk:
             leer=pk.read().capitalize()
     
-    canvas.create_text(460,200,text=leer,fill="black",font=("times",20,"bold"),tags="status",anchor=NW)
+    canvas.create_text(460,200,text=leer,fill="black",font=("times",18,"bold"),tags="status",anchor=NW)
+    
 
 def labelnombre():#--------------------------numero debajo de la imagen
     canvas.delete("label")
@@ -94,7 +115,13 @@ background = canvas.create_image(
     image=background_img)
 #-----------------------------------------------------------------
 def updateimg():#------------------------------------------------------updatear la imagen
-    imagenpkm = Image.open(pokeimg[contlista.index])
+    
+    url = Variables.sprite
+    r = requests.get(url)
+    with open('resources/imgs/00imgtemp.png', 'wb') as f:
+        f.write(r.content)
+
+    imagenpkm = Image.open('resources/imgs/00imgtemp.png')
     resize=imagenpkm.resize((150,150),Image.Resampling.LANCZOS)
     nuevimg=ImageTk.PhotoImage(resize)
     image_container=canvas.create_image(180,190, anchor="nw",image=nuevimg)
@@ -150,10 +177,7 @@ def b1_click():#boton cambiar pokemon al anterior de la lista
         labelnombre()
         next()
         updateimg()
-        
-        
-
-        
+                
     else:
         pass
     
@@ -163,16 +187,16 @@ def b2_click():#--------------Boton Buscar Pokemon
     sonidoentrar.play()
     buscar=entry1.get()
     # print(buscar)
-    for i in listapokedex:
-        if buscar == i.nombre:
-            contlista.index=i.index
-            # print(contlista)
-            labelnombre()
-            next()
-            updateimg()    
-        else:
-            # next()
-            pass
+    # for i in listapokedex:
+    # if buscar == i.nombre:
+    #contlista.index=i.index
+    # print(contlista)
+    labelnombre()
+    next(buscar)
+    updateimg()    
+    # else:
+    #     # next()
+    #     pass
 
 def b3_click():#volumen arriba Boton
     mixer.music.set_volume(mixer.music.get_volume()+0.1)

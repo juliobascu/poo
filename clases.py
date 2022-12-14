@@ -43,3 +43,6 @@ class Contador_lista:
     def __init__(self,index):
         self.index=index
         
+
+class Variables:
+    sprite=""
