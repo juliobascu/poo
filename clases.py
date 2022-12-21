@@ -46,3 +46,4 @@ class Contador_lista:
 
 class Variables:
     sprite=""
+    logleer=""

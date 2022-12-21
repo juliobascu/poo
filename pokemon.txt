@@ -1,8 +1,8 @@
-Nombre:gengar
-Tipo:ghost
-Peso:40.5
-Ataque:65
-Defensa:60
-Vida:60
-Altura:1.5
-ID:94
+Nombre:mewtwo
+Tipo:psychic
+Peso:122.0
+Ataque:110
+Defensa:90
+Vida:106
+Altura:2.0
+ID:150

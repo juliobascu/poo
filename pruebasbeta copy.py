@@ -13,8 +13,9 @@ os.system("cls")
 op=input("Ingrese nombre del personaje a buscar:")
 
 url=f"http://gateway.marvel.com/v1/public/characters?name={op}&ts=1&apikey=903eb20e5c4b70d46e6b782f43d278ce&hash=3acc50af3b206a6aa55b54b501f1e924"
-print(url)
+
 r=requests.get(url)
+print(r)
 j=json.loads(r.text)
 
 nombre=j["data"]['results'][0]["name"]

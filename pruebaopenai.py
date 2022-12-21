@@ -3,7 +3,7 @@ from skimage import io
 import os
 
 # Establecemos la API Key
-openai.api_key = "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"
+openai.api_key = "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"
 
 def imagen():
     #ingresamos un prompt

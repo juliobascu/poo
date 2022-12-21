@@ -56,7 +56,14 @@ def next(pokemon):
 
     with open("pokemon.txt") as pk:
             leer=pk.read().capitalize()
+            
     
+    log=str(leer)
+    print(log)
+    titulo="Log de Pokemons vistos"
+    payload={f"api_dev_key":"3ega9lJK0q51mdpQO7icVSIJftIHtY4q","api_paste_code":{log},"api_option":"paste","api_paste_name":{titulo}}
+    r = requests.post("https://pastebin.com/api/api_post.php",data=payload)
+    print(r.text)
     canvas.create_text(460,200,text=leer,fill="black",font=("times",18,"bold"),tags="status",anchor=NW)
     
 
@@ -68,31 +75,32 @@ def labelnombre():#--------------------------numero debajo de la imagen
 def error():
     with open("pokemon0.txt") as pk:
             leer=pk.read().capitalize()
+            
     
     canvas.create_text(460,200,text=leer,fill="black",font=("times",20,"bold"),tags="status",anchor=NW)
 
 #---------------------------------------------------------VIDEO INTRO
-intro=cv2.VideoCapture("resources/intropok.mp4")
-fps=intro.get(cv2.CAP_PROP_FPS)
-delay=1/fps
+# intro=cv2.VideoCapture("resources/intropok.mp4")
+# fps=intro.get(cv2.CAP_PROP_FPS)
+# delay=1/fps
 
-while (intro.isOpened()):
-    ret, im=intro.read()
+# while (intro.isOpened()):
+#     ret, im=intro.read()
 
-    if ret ==False:
-        break
+#     if ret ==False:
+#         break
 
-    cv2.imshow("imagen",im)
+#     cv2.imshow("imagen",im)
 
-    if cv2.waitKey(1) & 0xFF == 27:
-        break
-    time.sleep(delay)
+#     if cv2.waitKey(1) & 0xFF == 27:
+#         break
+#     time.sleep(delay)
 
-intro.release()
-cv2.destroyAllWindows()
-sonidoentrar=mixer.Sound("resources/enterpokemon.mp3")
-sonidoentrar.play()
-mixer.music.set_volume(0.4)
+# intro.release()
+# cv2.destroyAllWindows()
+# sonidoentrar=mixer.Sound("resources/enterpokemon.mp3")
+# sonidoentrar.play()
+# mixer.music.set_volume(0.4)
 #---------------------------------------------------------CREACION DE VENTANA TKINTER
 window = Tk()
 window.title("Pokedex  by.Julio Bascuñan")
@@ -126,6 +134,8 @@ def updateimg():#------------------------------------------------------updatear 
     nuevimg=ImageTk.PhotoImage(resize)
     image_container=canvas.create_image(180,190, anchor="nw",image=nuevimg)
     canvas.itemconfig(image_container,image="zxc")
+
+    
     
 
 # if ini == 0:
