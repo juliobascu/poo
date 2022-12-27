@@ -1,8 +1,8 @@
-Nombre:mewtwo
-Tipo:psychic
-Peso:122.0
-Ataque:110
+Nombre:moltres
+Tipo:fire
+Peso:60.0
+Ataque:100
 Defensa:90
-Vida:106
+Vida:90
 Altura:2.0
-ID:150
+ID:146

@@ -43,3 +43,55 @@
 # camera.release()
 # cv2.destroyAllWindows()
 #------------------------------------------------------------------------------------------------
+# import requests
+# peticionuser={"api_dev_key":"3ega9lJK0q51mdpQO7icVSIJftIHtY4q","api_user_name":"juliobascu","api_user_password":"Isabellabascu1409"}        
+# userkey=requests.post("https://pastebin.com/api/api_login.php",data=peticionuser)
+# print(userkey.text)
+#-----------------------------------------------------------------------------------------------
+
+from flask import Flask, request,jsonify
+from logs_bd import log_pokemon
+
+
+app = Flask(__name__)
+
+@app.route('/ping')
+def ping():
+    return jsonify({"message":"pong!"})
+
+@app.route('/logs')
+def ver_logs():
+    return jsonify(log_pokemon)
+
+@app.route('/logs',methods=['POST'])
+def agregar_log():
+    new_log={
+        "nombre":request.json["nombre"],
+        "tipo":request.json["tipo"],
+        "peso":request.json["peso"],
+        "altura":request.json["altura"],
+        "pokeid":request.json["pokeid"],
+        "hp":request.json["hp"],
+        "atk":request.json["atk"],
+        "def":request.json["def"],
+        "sprite":request.json["sprite"]
+    }
+    log_pokemon.append(new_log)
+    return jsonify({"favoritos":log_pokemon})
+
+if __name__ == '__main__':
+    app.run()
+
+# @app.route('/', methods=['PUT'])
+# def update_user():
+#     data = request.json
+#     name = data['name']
+#     return f"Usuario {name} actualizado"
+
+# @app.route('/', methods=['DELETE'])
+# def delete_user():
+#     name = request.args.get('name')
+#     return f"Usuario {name} eliminado"
+
+
+

@@ -47,3 +47,11 @@ class Contador_lista:
 class Variables:
     sprite=""
     logleer=""
+    nombre=""
+    tipo=""
+    peso=""
+    altura=""
+    pokeid=""
+    hp=""
+    atk=""
+    defensa=""

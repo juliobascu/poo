@@ -2,13 +2,10 @@ from pokemonBD import *
 from clases import *
 from imagenesascii import *
 import requests 
-import json 
-import os
 from cProfile import label
 from ctypes.wintypes import RGB
 from operator import index
 from tkinter import *
-import tkinter
 from turtle import position, width
 import cv2
 import time
@@ -24,6 +21,7 @@ mixer.music.play(-1)
 
 
 #-----------------------------------------------------------------------
+
 def next(pokemon):
     
     url = f'https://pokeapi.co/api/v2/pokemon/{pokemon}'
@@ -41,7 +39,29 @@ def next(pokemon):
     atk=j["stats"][1]["base_stat"]
     defensa=j["stats"][2]["base_stat"]
     Variables.sprite=j["sprites"]["front_default"]
-    
+#--------------------------------------------------------------------------
+    url = "http://localhost:5000/logs"
+
+    payload = {
+            "nombre":nombre,
+            "tipo":tipo,
+            "peso":peso,
+            "altura":altura,
+            "pokeid":pokeid,
+            "hp":hp,
+            "atk":atk,
+            "def":defensa,
+            "sprite":Variables.sprite
+    }
+    headers = {'Content-Type': 'application/json'}
+
+    response = requests.post(url, json=payload, headers=headers)
+
+    if response.status_code == 201:
+        print(response.text)
+    else:
+        print(f"Error {response.status_code}: {response.text}")
+#-------------------------------------------------------------------------------------------
     canvas.delete("status")
     archivo=open("pokemon.txt","w")
     archivo.write(f"Nombre:{nombre}\n")
@@ -56,12 +76,17 @@ def next(pokemon):
 
     with open("pokemon.txt") as pk:
             leer=pk.read().capitalize()
-            
-    
+
+    #peticion de user key
+    peticionuser={"api_dev_key":"3ega9lJK0q51mdpQO7icVSIJftIHtY4q","api_user_name":"juliobascu","api_user_password":"Isabellabascu1409"}        
+    userkey=requests.post("https://pastebin.com/api/api_login.php",data=peticionuser)
+    userkey=userkey.text
+
+    #logeo con el user key y el api key pidiendo el post
     log=str(leer)
     print(log)
     titulo="Log de Pokemons vistos"
-    payload={f"api_dev_key":"3ega9lJK0q51mdpQO7icVSIJftIHtY4q","api_paste_code":{log},"api_option":"paste","api_paste_name":{titulo}}
+    payload={f"api_dev_key":"3ega9lJK0q51mdpQO7icVSIJftIHtY4q","api_user_key":{userkey},"api_paste_code":{log},"api_option":"paste","api_paste_name":{titulo}}
     r = requests.post("https://pastebin.com/api/api_post.php",data=payload)
     print(r.text)
     canvas.create_text(460,200,text=leer,fill="black",font=("times",18,"bold"),tags="status",anchor=NW)
@@ -79,28 +104,30 @@ def error():
     
     canvas.create_text(460,200,text=leer,fill="black",font=("times",20,"bold"),tags="status",anchor=NW)
 
-#---------------------------------------------------------VIDEO INTRO
-# intro=cv2.VideoCapture("resources/intropok.mp4")
-# fps=intro.get(cv2.CAP_PROP_FPS)
-# delay=1/fps
+def videointro():
+    #---------------------------------------------------------VIDEO INTRO
+    intro=cv2.VideoCapture("resources/intropok.mp4")
+    fps=intro.get(cv2.CAP_PROP_FPS)
+    delay=1/fps
 
-# while (intro.isOpened()):
-#     ret, im=intro.read()
+    while (intro.isOpened()):
+        ret, im=intro.read()
 
-#     if ret ==False:
-#         break
+        if ret ==False:
+            break
 
-#     cv2.imshow("imagen",im)
+        cv2.imshow("imagen",im)
 
-#     if cv2.waitKey(1) & 0xFF == 27:
-#         break
-#     time.sleep(delay)
+        if cv2.waitKey(1) & 0xFF == 27:
+            break
+        time.sleep(delay)
 
-# intro.release()
-# cv2.destroyAllWindows()
-# sonidoentrar=mixer.Sound("resources/enterpokemon.mp3")
-# sonidoentrar.play()
-# mixer.music.set_volume(0.4)
+    intro.release()
+    cv2.destroyAllWindows()
+    sonidoentrar=mixer.Sound("resources/enterpokemon.mp3")
+    sonidoentrar.play()
+    mixer.music.set_volume(0.4)
+
 #---------------------------------------------------------CREACION DE VENTANA TKINTER
 window = Tk()
 window.title("Pokedex  by.Julio Bascuñan")

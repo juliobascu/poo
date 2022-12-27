@@ -46,4 +46,3 @@ while True:
         completar()
     elif op == "3":
         os._exit()
-
