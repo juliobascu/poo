@@ -6,7 +6,17 @@ import requests
 # # Hacer una solicitud POST
 url = "http://localhost:5000/"
 
-payload = {'name': 'Julito'}
+payload = {
+        "nombre":"pikachu",
+        "tipo":"electrico",
+        "peso":"36",
+        "altura":"40cm",
+        "pokeid":"17",
+        "hp":"56",
+        "atk":"39",
+        "def":"40",
+        "sprite":"url"
+}
 headers = {'Content-Type': 'application/json'}
 
 response = requests.post(url, json=payload, headers=headers)
