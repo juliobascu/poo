@@ -1,33 +1,50 @@
-import requests
+# import pywhatkit
 
-# Hacer una solicitud GET
-#response = requests.get("http://127.0.0.1:5000")
+# # Envía un mensaje a las 11:30 AM debe ser formato 24hs
+# hora=14
+# minuto=14
+# mensaje="Conectense a discord po"
+# numero="+56963573518"
+# nombre="Julio"
+# lista=["+56963573518","+56979034670","+56958799275","+56988659715"]
+# for i in lista:
+#     pywhatkit.sendwhatmsg(i,mensaje,hora,minuto)
+#     minuto=minuto+1
+#---------------------------------------------------------------------------
+# import speech_recognition as sr
 
-# # Hacer una solicitud POST
-url = "http://localhost:5000/"
+# # Obtén una muestra de audio del micrófono
+# r = sr.Recognizer()
+# with sr.Microphone() as source:
+#     audio = r.listen(source)
 
-payload = {
-        "nombre":"pikachu",
-        "tipo":"electrico",
-        "peso":"36",
-        "altura":"40cm",
-        "pokeid":"17",
-        "hp":"56",
-        "atk":"39",
-        "def":"40",
-        "sprite":"url"
-}
-headers = {'Content-Type': 'application/json'}
+# # Convierte el audio en texto
+# text = r.recognize_google(audio)
+# print(text)
+#-----------------------------------------------------------------------------
+# import cv2
 
-response = requests.post(url, json=payload, headers=headers)
+# # Abrir la cámara del computador
+# camera = cv2.VideoCapture(0)
 
-if response.status_code == 201:
-    print(response.text)
-else:
-    print(f"Error {response.status_code}: {response.text}")
+# # Continuar mostrando la vista en vivo de la cámara hasta que se presione 'q'
+# while True:
+#     # Leer un frame de la cámara
+#     _, frame = camera.read()
 
-# # Hacer una solicitud PUT
-# response = requests.put("http://127.0.0.1:5000", json="PUT")
+#     # Mostrar el frame en una ventana
+#     cv2.imshow("Live Camera", frame)
 
-# # Hacer una solicitud DELETE
-# response = requests.delete("http://127.0.0.1:5000", params="DELETE")
+#     # Si se presiona 'q', detener el bucle
+#     if cv2.waitKey(1) & 0xFF == ord('q'):
+#         break
+
+# # Liberar la cámara y destruir la ventana
+# camera.release()
+# cv2.destroyAllWindows()
+#------------------------------------------------------------------------------------------------
+# import requests
+# peticionuser={"api_dev_key":"3ega9lJK0q51mdpQO7icVSIJftIHtY4q","api_user_name":"juliobascu","api_user_password":"Isabellabascu1409"}        
+# userkey=requests.post("https://pastebin.com/api/api_login.php",data=peticionuser)
+# print(userkey.text)
+#-----------------------------------------------------------------------------------------------

@@ -1,8 +1,8 @@
-Nombre:moltres
-Tipo:fire
-Peso:60.0
-Ataque:100
-Defensa:90
-Vida:90
-Altura:2.0
-ID:146
+Nombre:raichu
+Tipo:electric
+Peso:30.0
+Ataque:90
+Defensa:55
+Vida:60
+Altura:0.8
+ID:26
