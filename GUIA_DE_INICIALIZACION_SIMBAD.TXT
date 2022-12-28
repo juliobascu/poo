@@ -14,3 +14,24 @@ jsonify
 3.-En otra terminal inicie el MAIN_POKEDEX.py
 
 4.- La URL de github es : https://github.com/juliobascu/poo.git
+
+5.- GUIA E USO DE LA POKEDEX:
+
+a) En el recuadro de la izquierda escribe el nombre del pokemon a buscar y 
+al presionar buscar utiliza el metodo GET para obtener el pokemon de la POkeApi
+
+b)Si quiere añadirlo a favoritos presionar el boton con el dibujo de corazon y eso utiliza
+el metodo POST para añadirlo a una api propia que cree con Flask.
+
+c)Si desea LISTAR los pokemones que estan en favoritos debe presionar el boton de la derecha con el 
+dibujo del la tabla de lista y le mostrara en pantalla una lista de los pokemones agregados hasta el momento
+en la lista de favoritos de la API y los pide con el metodo GET.
+
+d)En caso de querer modificar un pokemon primero debe escribir en el recuadro de la izquierda donde se buscan
+los pokemones y escribir el nombre del pokemon que este en la lista de favoritos y luego en el recuadro de la derecha
+que dice "NUEVO NOMBRE" usted escribe el nuevo nombre y luego preciona el boton que esta encima con forma de una lista
+que tiene un lapiz y eso cambiara con el metodo PUT el nombre del pokemon seleccionado.
+
+e)Por ultimo para borrar debera poner en el recuadro de busquedael nombre del pokemon que desea borrar
+y luego presionar el boton de borrar que tiene el icono del tacho de basura y con el metodo DELETE borrara 
+el pokemon de la api.
