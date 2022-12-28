@@ -156,14 +156,16 @@ class Pokedex:
             data = {"nombre": nombre2}
 
             response = requests.put(url, json=data)
-
+            canvas.delete("status")
             if response.status_code == 200:
                 print(response.json())
+                canvas.create_text(460,200,text="Pokemon Actualizado!!!",fill="black",font=("times",12,"bold"),tags="status",anchor=NW)
             else:
+                canvas.create_text(460,200,text="Error pokemon no encontrado",fill="black",font=("times",12,"bold"),tags="status",anchor=NW)
                 print("Error: status code", response.status_code)
         
     def b1_click():#------------------------------------------------boton borrar pokemon de lista
-        
+        canvas.delete("status")
         sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
         sonidoentrar.play()
         borrar=Pokedex.entry1.get()
@@ -171,8 +173,10 @@ class Pokedex:
         response = requests.delete(url)
         if response.status_code == 200:
             print(response.json())
+            canvas.create_text(460,200,text="Pokemon Borrado!!!",fill="black",font=("times",12,"bold"),tags="status",anchor=NW)
         else:
             print("Error: status code", response.status_code)
+            canvas.create_text(460,200,text="Error pokemon no encontrado",fill="black",font=("times",12,"bold"),tags="status",anchor=NW)
 
         
     def b5_click():#--------------------------------------------boton de listar API de pokemones vistos        
@@ -183,15 +187,18 @@ class Pokedex:
         resp=response.json()
         y=200
         canvas.delete("status")
-        for i in resp:
-            for key in i:
-                if key == "nombre":
-                    canvas.create_text(460,y,text=i[key],fill="black",font=("times",12,"bold"),tags="status",anchor=NW)
-                    y=y+12
-                
+        if response.status_code == 200:
+            for i in resp:
+                for key in i:
+                    if key == "nombre":
+                        canvas.create_text(460,y,text=i[key],fill="black",font=("times",12,"bold"),tags="status",anchor=NW)
+                        y=y+12
+        else:
+            canvas.create_text(460,200,text="Error pokemon no encontrado",fill="black",font=("times",12,"bold"),tags="status",anchor=NW)
             
 
     def b6_click():#----------------------------------------boton de añadir a favorito API de pokemones vistos     
+            canvas.delete("status")
             sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
             sonidoentrar.play()
             url = "http://localhost:5000/logs"
@@ -211,10 +218,12 @@ class Pokedex:
 
             response = requests.post(url, json=payload, headers=headers)
 
-            if response.status_code == 201:
+            if response.status_code == 200:
+                canvas.create_text(460,200,text="Pokemon Añadido a Favoritos!!!",fill="black",font=("times",12,"bold"),tags="status",anchor=NW)
                 print(response.text)
             else:
                 print(f"Error {response.status_code}: {response.text}")
+                canvas.create_text(460,200,text="Error:Pokemon no agregado ",fill="black",font=("times",12,"bold"),tags="status",anchor=NW)
 
 
     def b2_click():#--------------Boton Buscar Pokemon

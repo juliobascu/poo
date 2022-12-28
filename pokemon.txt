@@ -1,8 +1,8 @@
-Nombre:regigigas
+Nombre:pidgey
 Tipo:normal
-Peso:420.0
-Ataque:160
-Defensa:110
-Vida:110
-Altura:3.7
-ID:486
+Peso:1.8
+Ataque:45
+Defensa:40
+Vida:40
+Altura:0.3
+ID:16
