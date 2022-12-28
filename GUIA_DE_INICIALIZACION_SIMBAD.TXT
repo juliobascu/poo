@@ -1,0 +1,16 @@
+1.-Instalacion de librerias:
+requests 
+tkinter
+turtle
+cv2
+time
+pygame
+PIL
+Flask
+jsonify
+
+2.-Inice el archivo API_SERVIDOR.py 
+
+3.-En otra terminal inicie el MAIN_POKEDEX.py
+
+4.- La URL de github es : https://github.com/juliobascu/poo.git
