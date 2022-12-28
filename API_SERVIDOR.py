@@ -4,15 +4,15 @@ from logs_bd import logpokemon
 
 app = Flask(__name__)
 
-@app.route('/ping')
+@app.route('/ping') #prueba de GET ping
 def ping():
     return jsonify({"message":"pong!"})
 
-@app.route('/logs')
+@app.route('/logs') #este es el oficial GET
 def ver_logs():
     return jsonify(logpokemon)
 
-@app.route('/logs',methods=['POST'])
+@app.route('/logs',methods=['POST']) # metodo POST 
 def agregar_log():
     new_log={
         "nombre":request.json["nombre"],
@@ -30,17 +30,17 @@ def agregar_log():
 
 
 
-@app.route('/logs/<string:logpokemon_nombre>', methods=['PUT'])
+@app.route('/logs/<string:logpokemon_nombre>', methods=['PUT']) #metodo PUT para poder pedir a la api
 def editar_log(logpokemon_nombre):
     pokemonEncontrado=[i for i in logpokemon if i["nombre"]==logpokemon_nombre]
     if (len(pokemonEncontrado)) > 0:
         pokemonEncontrado[0]["nombre"] = request.json["nombre"]
 
         return jsonify({"log_pokemon":pokemonEncontrado[0]})
-    return jsonify({"mensaje":pokemonEncontrado}) 
+    return jsonify({"mensaje":pokemonEncontrado})
 
 
-@app.route('/logs/<string:logpokemon_nombre>', methods=['DELETE'])
+@app.route('/logs/<string:logpokemon_nombre>', methods=['DELETE']) #metodo DELETE de la api
 def borrar_log(logpokemon_nombre):
     pokemonEncontrado=[i for i in logpokemon if i["nombre"]==logpokemon_nombre]
     if (len(pokemonEncontrado)) > 0:

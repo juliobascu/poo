@@ -1,2 +1,0 @@
-
-pokeimg=["resources/imgs/pikachu.png","resources/imgs/bulbasaur.png","resources/imgs/charmander.png","resources/imgs/squirtle.png","resources/imgs/caterpie.png","resources/imgs/pidgey.png","resources/imgs/rattata.png","resources/imgs/spearow.png","resources/imgs/ekans.png",]

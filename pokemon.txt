@@ -1,8 +1,8 @@
-Nombre:raichu
-Tipo:electric
-Peso:30.0
-Ataque:90
-Defensa:55
-Vida:60
-Altura:0.8
-ID:26
+Nombre:regigigas
+Tipo:normal
+Peso:420.0
+Ataque:160
+Defensa:110
+Vida:110
+Altura:3.7
+ID:486

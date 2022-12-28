@@ -1,10 +1,5 @@
-from pokemonBD import *
 from clases import *
-from imagenesascii import *
 import requests 
-from cProfile import label
-from ctypes.wintypes import RGB
-from operator import index
 from tkinter import *
 from turtle import position, width
 import cv2
@@ -39,28 +34,16 @@ def next(pokemon):
     atk=j["stats"][1]["base_stat"]
     defensa=j["stats"][2]["base_stat"]
     Variables.sprite=j["sprites"]["front_default"]
+    
 #--------------------------------------------------------------------------
-    url = "http://localhost:5000/logs"
-
-    payload = {
-            "nombre":nombre,
-            "tipo":tipo,
-            "peso":peso,
-            "altura":altura,
-            "pokeid":pokeid,
-            "hp":hp,
-            "atk":atk,
-            "def":defensa,
-            "sprite":Variables.sprite
-    }
-    headers = {'Content-Type': 'application/json'}
-
-    response = requests.post(url, json=payload, headers=headers)
-
-    if response.status_code == 201:
-        print(response.text)
-    else:
-        print(f"Error {response.status_code}: {response.text}")
+    Variables.nombre=j["name"]
+    Variables.tipo=j["types"][0]["type"]["name"]
+    Variables.peso=j["weight"]/10
+    Variables.altura=j["height"]/10
+    Variables.pokeid=j["id"]
+    Variables.hp=j["stats"][0]["base_stat"]
+    Variables.atk=j["stats"][1]["base_stat"]
+    Variables.defensa=j["stats"][2]["base_stat"]
 #-------------------------------------------------------------------------------------------
     canvas.delete("status")
     archivo=open("pokemon.txt","w")
@@ -76,21 +59,6 @@ def next(pokemon):
 
     with open("pokemon.txt") as pk:
             leer=pk.read().capitalize()
-
-    #peticion de user key
-    peticionuser={"api_dev_key":"3ega9lJK0q51mdpQO7icVSIJftIHtY4q","api_user_name":"juliobascu","api_user_password":"Isabellabascu1409"}        
-    userkey=requests.post("https://pastebin.com/api/api_login.php",data=peticionuser)
-    userkey=userkey.text
-
-    #logeo con el user key y el api key pidiendo el post
-    log=str(leer)
-    print(log)
-    titulo="Log de Pokemons vistos"
-    payload={f"api_dev_key":"3ega9lJK0q51mdpQO7icVSIJftIHtY4q","api_user_key":{userkey},"api_paste_code":{log},"api_option":"paste","api_paste_name":{titulo}}
-    r = requests.post("https://pastebin.com/api/api_post.php",data=payload)
-    print(r.text)
-    canvas.create_text(460,200,text=leer,fill="black",font=("times",18,"bold"),tags="status",anchor=NW)
-    
 
 def labelnombre():#--------------------------numero debajo de la imagen
     canvas.delete("label")
@@ -127,7 +95,7 @@ def videointro():
     sonidoentrar=mixer.Sound("resources/enterpokemon.mp3")
     sonidoentrar.play()
     mixer.music.set_volume(0.4)
-
+#videointro()#muestra el video de inicio
 #---------------------------------------------------------CREACION DE VENTANA TKINTER
 window = Tk()
 window.title("Pokedex  by.Julio Bascuñan")
@@ -164,17 +132,7 @@ def updateimg():#------------------------------------------------------updatear 
 
     
     
-
-# if ini == 0:
-#     imagenpkm = Image.open(pokeimg[contlista.index])
-#     resize=imagenpkm.resize((150,150),Image.Resampling.LANCZOS)
-#     nuevimg=ImageTk.PhotoImage(resize)
-#     image_container =canvas.create_image(180,190, anchor="nw",image=nuevimg)
-#     ini=1
-#     labelnombre()
-#     next()
-
-#--------------------------------------------------------------------
+#--------------------------------------------------------------------entry1 buscar
 entry1_img = PhotoImage(file = f"resources/img_textBox1.png")
 entry1_bg = canvas.create_image(
     532.0, 519.0,
@@ -187,53 +145,108 @@ entry1 = Entry(
     font=("times",15,"bold"))
 
 entry1.place(
-    x = 489.0, y = 504,
+    x = 130, y = 490,
+    width = 86.0,
+    height = 28)
+
+#-------------------------------------------------------------------------------entry 2 editor
+entry2_img = PhotoImage(file = f"resources/img_textBox1.png")
+entry2_bg = canvas.create_image(
+    532.0, 519.0,
+    image = entry2_img)
+
+entry2 = Entry(
+    bd = 0,
+    bg = "#fb9b05",
+    highlightthickness = 0,
+    font=("times",15,"bold"))
+
+entry2.place(
+    x = 489.0, y = 510,
     width = 86.0,
     height = 28)
 #---------------------------------------------------------------Funciones Botones
 
-def b0_click():#boton cambiar pokemon al siguiente de la lista
+def b0_click():#boton editar pokemon de lista
     
-    if contlista.index<len(listapokedex)-1:        
+           
+    sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
+    sonidoentrar.play()
+    contlista.index=contlista.index+1
+    buscaredit=entry1.get()
+    nombre2=entry2.get()
+    url = f"http://localhost:5000/logs/{buscaredit}"
+    data = {"nombre": nombre2}
+    response = requests.put(url, json=data)
+    if response.status_code == 200:
+        print(response.json())
+    else:
+        print("Error: status code", response.status_code)
+    
+def b1_click():#boton borrar pokemon de lista
+    
         sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
         sonidoentrar.play()
-        contlista.index=contlista.index+1
-        labelnombre()
-        next()
-        updateimg()
-        
-        
-    else:
-        pass
+        borrar=entry1.get()
+        url = f"http://localhost:5000/logs/{borrar}"
+
+        response = requests.delete(url)
+
+        if response.status_code == 200:
+            print(response.json())
+        else:
+            print("Error: status code", response.status_code)
+
     
-def b1_click():#boton cambiar pokemon al anterior de la lista
-    if contlista.index>0:
+def b5_click():#boton de listar API de pokemones vistos        
         sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
         sonidoentrar.play()
-        contlista.index=contlista.index-1
-        labelnombre()
-        next()
-        updateimg()
-                
-    else:
-        pass
-    
+        url = f"http://localhost:5000/logs"
+
+        response = requests.get(url)
+        resp=response.json()
+        y=200
+        for i in resp:
+            for key in i:
+                if key == "nombre":
+                    canvas.create_text(460,y,text=i[key],fill="black",font=("times",12,"bold"),tags="status",anchor=NW)
+                    y=y+12
+            
+        
+
+def b6_click():#boton de añadir a favorito API de pokemones vistos      
+        sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
+        sonidoentrar.play()
+        url = "http://localhost:5000/logs"
+
+        payload = {
+                "nombre":Variables.nombre,
+                "tipo":Variables.tipo,
+                "peso":Variables.peso,
+                "altura":Variables.altura,
+                "pokeid":Variables.pokeid,
+                "hp":Variables.hp,
+                "atk":Variables.atk,
+                "def":Variables.defensa,
+                "sprite":Variables.sprite
+        }
+        headers = {'Content-Type': 'application/json'}
+
+        response = requests.post(url, json=payload, headers=headers)
+
+        if response.status_code == 201:
+            print(response.text)
+        else:
+            print(f"Error {response.status_code}: {response.text}")
+
 
 def b2_click():#--------------Boton Buscar Pokemon
     sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
     sonidoentrar.play()
     buscar=entry1.get()
-    # print(buscar)
-    # for i in listapokedex:
-    # if buscar == i.nombre:
-    #contlista.index=i.index
-    # print(contlista)
     labelnombre()
     next(buscar)
     updateimg()    
-    # else:
-    #     # next()
-    #     pass
 
 def b3_click():#volumen arriba Boton
     mixer.music.set_volume(mixer.music.get_volume()+0.1)
@@ -245,7 +258,7 @@ def b4_click():#volumen abajo boton
     sonidoentrar=mixer.Sound("resources/pokeboton.mp3")
     sonidoentrar.play()
 #-----------------------------------------------------------Imagenes de Botonoes Boton Derecha
-img0 = PhotoImage(file = f"resources/RightButton.png")
+img0 = PhotoImage(file = f"resources/edit24.png")
 b0 = Button(
     image = img0,
     borderwidth = 0,
@@ -258,7 +271,7 @@ b0.place(
     width = 24,
     height = 24)
 #----------------------------------------------------------------Boton Izquierda
-img1 = PhotoImage(file = f"resources/LeftButton.png")
+img1 = PhotoImage(file = f"resources/borrar24.png")
 b1 = Button(
     image = img1,
     borderwidth = 0,
@@ -283,9 +296,23 @@ b2 = Button(
     activebackground="#FF9B05")
 
 b2.place(
-    x = 608, y = 500,
-    width = 100,
-    height = 40)
+    x = 250, y = 520,
+    width = 80,
+    height = 30)
+#---------------------------------------------------------------------------------------------------BOTON LISTAR
+img5 = PhotoImage(file = f"resources/listarnuevo64.png")
+b0 = Button(
+    image = img5,
+    borderwidth = 0,
+    highlightthickness = 0,
+    command = b5_click,
+    relief = "flat")
+
+b0.place(
+    x = 668, y = 450,
+    width = 44,
+    height = 44)
+
 #-------------------------------------------------------------boton volumen arriba y abajo
 img3 = PhotoImage(file = f"resources/vmas.png")
 b3 = Button(
@@ -318,11 +345,29 @@ b4.place(
     x = 135, y = 430,
     width = 40,
     height = 10)
+
+
+img6 = PhotoImage(file = f"resources/añadir32.png")
+b4 = Button(
+    image = img6,
+    borderwidth = 0,
+    highlightthickness = 0,
+    command = b6_click,
+    relief = "flat",
+    text="",
+    background="#50f608",
+    activebackground="#50f608")
+
+b4.place(
+    x = 600, y = 455,
+    width = 32,
+    height = 32)
+    
 #-----------------------------------------------------------------Texto que muestra el nombre del personaje
 msjvol="- VOLUMEN +"
 canvas.create_text(190,419,text=msjvol,fill="#545454",font=("times",10,"bold"))
-#------------------------------------------------------------------------------------Canvas Muestra Datos Pokemon
-
+#------------------------------------------------------------------------------------Canvas Muestra editar pokemon
+canvas.create_text(535,504,text="Nuevo Nombre",fill="#545454",font=("times",10,"bold"))
 
 
 #------------------------------------------------------------------------------------Final del programa
